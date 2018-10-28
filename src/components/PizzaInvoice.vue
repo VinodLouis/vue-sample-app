@@ -8,7 +8,7 @@
             <div class="selection-header">Base</div>
             <v-layout>
                <v-flex xs8 class="r-t-b-p">
-                  {{selectedPizza.pizzaBase.name}}
+                  1. {{selectedPizza.pizzaBase.name}}
                </v-flex>
                <v-flex xs4 class="text-xs-right r-t-b-p">
                   {{selectedPizza.pizzaBase.price | currency}}
@@ -17,9 +17,9 @@
          </div>
          <div class="selection-wrapper" v-if="selectedPizza.pizzaToppings.length > 0 && selectedPizza.pizzaToppings.length < 4">
             <div class="selection-header">Topping(s)</div>
-            <v-layout v-for="item in selectedPizza.pizzaToppings" :key="item.id">
+            <v-layout v-for="(item,itemObjKey) in selectedPizza.pizzaToppings" :key="item.id">
                <v-flex xs8 class="r-t-b-p">
-                  {{item.name}}
+                  {{itemObjKey+1}}. {{item.name}}
                </v-flex>
                <v-flex xs4 class="text-xs-right r-t-b-p">
                   {{item.price | currency}}
@@ -28,9 +28,9 @@
          </div>
          <div class="selection-wrapper" v-if="selectedPizza.pizzaVegges.length > 0 && selectedPizza.pizzaVegges.length < 6">
             <div class="selection-header">Vegge(s)</div>
-            <v-layout v-for="item in selectedPizza.pizzaVegges" :key="item.id">
+            <v-layout v-for="(item,itemObjKey) in selectedPizza.pizzaVegges" :key="item.id">
                <v-flex xs8 class="r-t-b-p">
-                  {{item.name}}
+                  {{itemObjKey+1}}. {{item.name}}
                </v-flex>
                <v-flex xs4 class="text-xs-right r-t-b-p">
                   {{item.price | currency}}
@@ -41,7 +41,7 @@
             <div class="selection-header">Cheese</div>
             <v-layout>
                <v-flex xs8 class="r-t-b-p">
-                  {{selectedPizza.pizzaCheese.name}}
+                  1. {{selectedPizza.pizzaCheese.name}}
                </v-flex>
                <v-flex xs4 class="text-xs-right r-t-b-p">
                   {{selectedPizza.pizzaCheese.price | currency}}
@@ -50,9 +50,9 @@
          </div>
          <div class="selection-wrapper" v-if="selectedPizza.pizzaSauses.length > 0">
             <div class="selection-header">Sause(s)</div>
-            <v-layout v-for="item in selectedPizza.pizzaSauses" :key="item.id">
+            <v-layout v-for="(item,itemObjKey) in selectedPizza.pizzaSauses" :key="item.id">
                <v-flex xs8 class="r-t-b-p">
-                  {{item.name}}
+                {{itemObjKey+1}}. {{item.name}}
                </v-flex>
                <v-flex xs4 class="text-xs-right r-t-b-p">
                   {{item.price | currency}}
@@ -61,9 +61,9 @@
          </div>
          <div class="selection-wrapper" v-if="selectedPizza.pizzaDesserts.length > 0">
             <div class="selection-header">Dessert(s)</div>
-            <v-layout v-for="item in selectedPizza.pizzaDesserts" :key="item.id">
+            <v-layout v-for="(item,itemObjKey) in selectedPizza.pizzaDesserts" :key="item.id">
                <v-flex xs8 class="r-t-b-p">
-                  {{item.name}}
+                  {{itemObjKey+1}}. {{item.name}}
                </v-flex>
                <v-flex xs4 class="text-xs-right r-t-b-p">
                   {{item.price | currency}}
@@ -72,9 +72,9 @@
          </div>
          <div class="selection-wrapper" v-if="selectedPizza.pizzaExtra.length > 0">
             <div class="selection-header">Extra(s)</div>
-            <v-layout v-for="item in selectedPizza.pizzaExtra" :key="item.id">
+            <v-layout v-for="(item,itemObjKey) in selectedPizza.pizzaExtra" :key="item.id">
                <v-flex xs8 class="r-t-b-p">
-                  {{item.name}}
+                {{itemObjKey+1}}. {{item.name}}
                </v-flex>
                <v-flex xs4 class="text-xs-right r-t-b-p">
                   {{item.price | currency}}
