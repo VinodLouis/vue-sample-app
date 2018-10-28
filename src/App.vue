@@ -1,20 +1,16 @@
 <template>
-  <div id="app">
-    <div>
-    <router-link to="/">Home</router-link>
-    <router-link to="/about">About</router-link>
-    </div>  
-    <router-view/>
-  </div>
+ 
+    <v-app>
+    <PizzaOrder></PizzaOrder>
+    </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import PizzaOrder from './views/PizzaOrder'
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    PizzaOrder
   }
 }
 </script>
@@ -24,8 +20,6 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
