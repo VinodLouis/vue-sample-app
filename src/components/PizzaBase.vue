@@ -43,7 +43,7 @@
                            <div>
                               <div class="headline">{{item.name}}</div>
                               <div>Description</div>
-                              <div>{{item.price}}</div>
+                              <div>{{item.price | currency}}</div>
                            </div>
                         </v-card-title>
                      </v-flex>
