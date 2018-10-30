@@ -73,21 +73,27 @@ const actions = {
 
 // mutations 
 const mutations = {
+	//Set current ingredient slug
 	setCurrentIngredient(state,ingredient){
 		state.currIngredient = ingredient
 	},
+	//set all the available items under this ingredient
 	setPizzaIngredient(state,ing){
 		state.pizzaItemsAvialable[ing.ingredient] = ing.pizzaIngredient
 	},
+	//add new item in ingredients
 	addToCurrentIngredient(state,ing){
 		state.selectedItems[state.currIngredient].push(ing);
 	},
+	//remove all items in ingredients
 	removeAllSelectedIngredient(state){
 		state.selectedItems[state.currIngredient] = [];
 	},
+	//remove this item from ingredients
 	removeFromCurrIngredient(state, ing) {
 		state.selectedItems[state.currIngredient].splice(state.selectedItems[state.currIngredient].indexOf(ing), 1);
 	},
+	//set discount
 	setCouponDiscount(state, discount) {
 		state.couponApplied = discount;
 	}
