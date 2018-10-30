@@ -4,20 +4,10 @@
          fluid
          grid-list-lg
          >
-         <div class="selection-wrapper" v-if="selectedPizza.pizzaBase.id">
-            <div class="selection-header">Base</div>
-            <v-layout>
-               <v-flex xs8 class="r-t-b-p">
-                  1. {{selectedPizza.pizzaBase.name}}
-               </v-flex>
-               <v-flex xs4 class="text-xs-right r-t-b-p">
-                  {{selectedPizza.pizzaBase.price | currency}}
-               </v-flex>
-            </v-layout>
-         </div>
-         <div class="selection-wrapper" v-if="selectedPizza.pizzaToppings.length > 0 && selectedPizza.pizzaToppings.length < 4">
-            <div class="selection-header">Topping(s)</div>
-            <v-layout v-for="(item,itemObjKey) in selectedPizza.pizzaToppings" :key="item.id">
+
+         <div class="selection-wrapper" v-if="showIngredients(propertyName) && value.length > 0" :key="propertyName" v-for="(value, propertyName) in selectedPizza">
+            <div class="selection-header">{{propertyName}}</div>
+            <v-layout v-for="(item,itemObjKey) in value" :key="itemObjKey">
                <v-flex xs8 class="r-t-b-p">
                   {{itemObjKey+1}}. {{item.name}}
                </v-flex>
@@ -26,62 +16,8 @@
                </v-flex>
             </v-layout>
          </div>
-         <div class="selection-wrapper" v-if="selectedPizza.pizzaVegges.length > 0 && selectedPizza.pizzaVegges.length < 6">
-            <div class="selection-header">Vegge(s)</div>
-            <v-layout v-for="(item,itemObjKey) in selectedPizza.pizzaVegges" :key="item.id">
-               <v-flex xs8 class="r-t-b-p">
-                  {{itemObjKey+1}}. {{item.name}}
-               </v-flex>
-               <v-flex xs4 class="text-xs-right r-t-b-p">
-                  {{item.price | currency}}
-               </v-flex>
-            </v-layout>
-         </div>
-         <div class="selection-wrapper" v-if="selectedPizza.pizzaCheese.id">
-            <div class="selection-header">Cheese</div>
-            <v-layout>
-               <v-flex xs8 class="r-t-b-p">
-                  1. {{selectedPizza.pizzaCheese.name}}
-               </v-flex>
-               <v-flex xs4 class="text-xs-right r-t-b-p">
-                  {{selectedPizza.pizzaCheese.price | currency}}
-               </v-flex>
-            </v-layout>
-         </div>
-         <div class="selection-wrapper" v-if="selectedPizza.pizzaSauses.length > 0">
-            <div class="selection-header">Sause(s)</div>
-            <v-layout v-for="(item,itemObjKey) in selectedPizza.pizzaSauses" :key="item.id">
-               <v-flex xs8 class="r-t-b-p">
-                {{itemObjKey+1}}. {{item.name}}
-               </v-flex>
-               <v-flex xs4 class="text-xs-right r-t-b-p">
-                  {{item.price | currency}}
-               </v-flex>
-            </v-layout>
-         </div>
-         <div class="selection-wrapper" v-if="selectedPizza.pizzaDesserts.length > 0">
-            <div class="selection-header">Dessert(s)</div>
-            <v-layout v-for="(item,itemObjKey) in selectedPizza.pizzaDesserts" :key="item.id">
-               <v-flex xs8 class="r-t-b-p">
-                  {{itemObjKey+1}}. {{item.name}}
-               </v-flex>
-               <v-flex xs4 class="text-xs-right r-t-b-p">
-                  {{item.price | currency}}
-               </v-flex>
-            </v-layout>
-         </div>
-         <div class="selection-wrapper" v-if="selectedPizza.pizzaExtra.length > 0">
-            <div class="selection-header">Extra(s)</div>
-            <v-layout v-for="(item,itemObjKey) in selectedPizza.pizzaExtra" :key="item.id">
-               <v-flex xs8 class="r-t-b-p">
-                {{itemObjKey+1}}. {{item.name}}
-               </v-flex>
-               <v-flex xs4 class="text-xs-right r-t-b-p">
-                  {{item.price | currency}}
-               </v-flex>
-            </v-layout>
-         </div>
-         <div class="total-amt" v-if="selectedPizza.pizzaBase.id || (selectedPizza.pizzaToppings.length > 0 && selectedPizza.pizzaToppings.length < 4) || (selectedPizza.pizzaVegges.length > 0 && selectedPizza.pizzaVegges.length < 6) || selectedPizza.pizzaCheese.id || selectedPizza.pizzaSauses.length > 0 || selectedPizza.pizzaDesserts.length > 0 || selectedPizza.pizzaExtra.length > 0">
+         
+         <div class="total-amt">
             <v-layout>
                <v-flex xs8 class="r-t-b-p">
                   Total Amount
@@ -91,7 +27,7 @@
                </v-flex>
             </v-layout>
          </div>
-         <v-card class="white--text indigo darken-1 m-t-20" v-if="isReadyForPayment">
+         <v-card class="white--text indigo darken-1 m-t-20" v-if="isReadyForPayment()">
             <v-container  fluid
                grid-list-lg>
                <h2>Payment</h2>
@@ -160,56 +96,19 @@
      name: "PizzaInvoice",
      computed: {
        ...mapState({
+         allAvilablePizza: state => state.pizza.pizzaItemsAvialable,
          selectedPizza: state => state.pizza.selectedItems,
          discountCoupon: state => state.pizza.couponApplied
        }),
        totalAmount() {
          let amount = 0;
-         if (this.selectedPizza.pizzaBase.id) {
-           amount += parseFloat(this.selectedPizza.pizzaBase.price);
+         for(let ingredients in this.selectedPizza){
+           this.selectedPizza[ingredients].forEach((item)=>{
+             amount += parseFloat(item.price);
+           })
          }
-         if (this.selectedPizza.pizzaToppings.length > 0) {
-           this.selectedPizza.pizzaToppings.forEach(el => {
-             amount += parseFloat(el.price);
-           });
-         }
-         if (this.selectedPizza.pizzaVegges.length > 0) {
-           this.selectedPizza.pizzaVegges.forEach(el => {
-             amount += parseFloat(el.price);
-           });
-         }
-         if (this.selectedPizza.pizzaCheese.id) {
-           amount += parseFloat(this.selectedPizza.pizzaCheese.price);
-         }
-         if (this.selectedPizza.pizzaSauses.length > 0) {
-           this.selectedPizza.pizzaSauses.forEach(el => {
-             amount += parseFloat(el.price);
-           });
-         }
-         if (this.selectedPizza.pizzaDesserts.length > 0) {
-           this.selectedPizza.pizzaDesserts.forEach(el => {
-             amount += parseFloat(el.price);
-           });
-         }
-         if (this.selectedPizza.pizzaExtra.length > 0) {
-           this.selectedPizza.pizzaExtra.forEach(el => {
-             amount += parseFloat(el.price);
-           });
-         }
+        
          return amount;
-       },
-       isReadyForPayment() {
-         return (
-           this.selectedPizza.pizzaBase.id &&
-           this.selectedPizza.pizzaToppings.length > 0 &&
-           this.selectedPizza.pizzaToppings.length < 4 &&
-           this.selectedPizza.pizzaVegges.length > 0 &&
-           this.selectedPizza.pizzaVegges.length < 6 &&
-           this.selectedPizza.pizzaCheese.id &&
-           this.selectedPizza.pizzaSauses.length > 0 &&
-           this.selectedPizza.pizzaDesserts.length > 0 &&
-           this.selectedPizza.pizzaExtra.length > 0
-         );
        },
        discountedMoney() {
          if (this.discountCoupon.discountInPercentage == 0) return 0;
@@ -231,6 +130,22 @@
        ...mapActions("pizza", ["checkCouponCode"]),
        finalCheckout() {
          alert("PROCEED TO PAYMENT");
+       },
+       showIngredients(ing){
+           if (this.allAvilablePizza[ing].min == -1) 
+            return true;
+          if (this.allAvilablePizza[ing].min !== -1 && this.allAvilablePizza[ing].max == -1)
+            return (this.selectedPizza[ing].length >= this.allAvilablePizza[ing].min)
+        if (this.allAvilablePizza[ing].min !== -1 && this.allAvilablePizza[ing].max !== -1)
+            return (this.selectedPizza[ing].length >= this.allAvilablePizza[ing].min && this.selectedPizza[ing].length <= this.allAvilablePizza[ing].max)
+         return true;
+       },
+       isReadyForPayment() {
+         let paymentReady = true;
+         for(let ingredients in this.selectedPizza){
+           paymentReady = (paymentReady && this.showIngredients(ingredients))
+         }
+         return paymentReady;
        }
      }
    };
@@ -242,6 +157,7 @@
    border-bottom: thin solid #fafafa;
    color: #fafafa;
    font-weight: 700;
+   text-transform: capitalize;
    }
    .r-t-b-p {
    padding-top: 0px !important;

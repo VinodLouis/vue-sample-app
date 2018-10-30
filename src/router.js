@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import PizzaBase from './components/PizzaBase'
+import PizzaIngredients from './components/PizzaIngredients'
 
 Vue.use(Router)
 
@@ -9,7 +9,8 @@ export default new Router({
     {
       path: '/',
       name: 'Base',
-      component: PizzaBase
+      component: PizzaIngredients,
+      props:{ingredient:"base"}
     },
     {
       path: '/toppings',
@@ -17,7 +18,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/PizzaToppings.vue')
+      component: () => import(/* webpackChunkName: "about" */ './components/PizzaIngredients.vue'),
+      props:{ingredient:"toppings"}
     },
     {
       path: '/vegges',
@@ -25,7 +27,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/PizzaVegges.vue')
+      component: () => import(/* webpackChunkName: "about" */ './components/PizzaIngredients.vue'),
+      props:{ingredient:"vegges"}
     },
     {
       path: '/cheese',
@@ -33,15 +36,17 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/PizzaCheese.vue')
+      component: () => import(/* webpackChunkName: "about" */ './components/PizzaIngredients.vue'),
+      props:{ingredient:"cheese"}
     },
     {
-      path: '/sauses',
-      name: 'Sauses',
+      path: '/sauces',
+      name: 'Sauces',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/PizzaSauses.vue')
+      component: () => import(/* webpackChunkName: "about" */ './components/PizzaIngredients.vue'),
+      props:{ingredient:"sauces"}
     },
     {
       path: '/desserts',
@@ -49,7 +54,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/PizzaDesserts.vue')
+      component: () => import(/* webpackChunkName: "about" */ './components/PizzaIngredients.vue'),
+      props:{ingredient:"desserts"}
     },
     {
       path: '/extra',
@@ -57,7 +63,8 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './components/PizzaExtra.vue')
+      component: () => import(/* webpackChunkName: "about" */ './components/PizzaIngredients.vue'),
+      props:{ingredient:"extra"}
     }
   ]
 })

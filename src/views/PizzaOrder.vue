@@ -10,14 +10,14 @@
             <v-tab to="/toppings">Toppings <img src="../assets/toppings.svg" width="22"/></v-tab>
             <v-tab to="/vegges">Vegges <img src="../assets/vegges.svg" width="22"/></v-tab>
             <v-tab to="/cheese">Cheese <img src="../assets/cheese.svg" width="22"/></v-tab>
-            <v-tab to="/sauses">Sause(s) <img src="../assets/sause.svg" width="22"/></v-tab>
+            <v-tab to="/sauces">Sauce(s) <img src="../assets/sause.svg" width="22"/></v-tab>
             <v-tab to="/desserts">Dessert(s) <img src="../assets/dessert.svg" width="22"/></v-tab>
             <v-tab to="/extra">Extra <img src="../assets/extra.svg" width="22"/></v-tab>
             </v-tabs> 
-            <router-view/>
+            <router-view :key="$route.fullPath" />
         </v-flex>
          <v-flex xs4 fill-height>
-           <PizzaInvoice></PizzaInvoice>
+          <PizzaInvoice></PizzaInvoice>
          </v-flex>
      </v-layout>  
 </template>
